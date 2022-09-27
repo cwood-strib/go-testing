@@ -1,10 +1,10 @@
 package main
 
 import (
-  "errors"
+	"errors"
 	"fmt"
 	"io/fs"
-  "os"
+	"os"
 	"path/filepath"
 )
 
@@ -17,34 +17,32 @@ func Hello(name string) string {
 // := is shorthand for declare and assign
 
 func extractPath(args []string) (string, error) {
-  if len(args) > 0 {
-    return args[0], nil
-  }
+	if len(args) > 0 {
+		return args[0], nil
+	}
 
-  return "", errors.New("File path not given")
+	return "", errors.New("File path not given")
 }
 
 func main() {
-  count := 0
+	count := 0
 
-  args := os.Args[1:]
-  path, err := extractPath(args)
-  
-  if err != nil {
+	args := os.Args[1:]
+	path, err := extractPath(args)
+
+	if err != nil {
 		fmt.Printf("Must provide a path to walk")
-    return
-  }
+		return
+	}
 
-  // TODO: error handling no path 
-
-  err = filepath.Walk(path, func(path string, info fs.FileInfo, err error) error {
+	err = filepath.Walk(path, func(path string, info fs.FileInfo, err error) error {
 		if err != nil {
 			fmt.Printf("prevent panic by handling failure accessing a path %q: %v\n", path, err)
 			return err
 		}
-    if !info.IsDir() {
-      count++
-    }
+		if !info.IsDir() {
+			count++
+		}
 
 		return nil
 	})
@@ -54,5 +52,5 @@ func main() {
 		return
 	}
 
-  fmt.Printf("Visited: %v\n", count)
+	fmt.Printf("Visited: %v\n", count)
 }
